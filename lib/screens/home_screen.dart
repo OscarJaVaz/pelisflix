@@ -1,29 +1,37 @@
 import 'package:flutter/material.dart';
+import '../models/movie.dart';
+import '../services/tmdb_service.dart';
+import '../widgets/movie_section.dart';
 
 class HomeScreen extends StatefulWidget {
-  const HomeScreen({super.key});
+  const HomeScreen({Key? key}) : super(key: key);
 
   @override
   State<HomeScreen> createState() => _HomeScreenState();
+
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+  final TMDbService _tmdbService = TMDbService();
+  List<Movie> _trendingMovies = [];
+
   @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Movie App',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-        scaffoldBackgroundColor: Colors.grey[100],
-      ),
-      home: const MovieHomePage(),
-    );
+  void initState() {
+    super.initState();
+    _loadTrendingMovies();
   }
-}
 
-class MovieHomePage extends StatelessWidget {
-  const MovieHomePage({Key? key}) : super(key: key);
-
+  Future<void> _loadTrendingMovies() async {
+    try {
+      final movies = await _tmdbService.getTrendingMovies();
+      setState(() {
+        _trendingMovies = movies;
+      });
+    } catch (e) {
+      print('Error loading trending movies: $e');
+      // TODO: Implement proper error handling
+    }
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -55,11 +63,19 @@ class MovieHomePage extends StatelessWidget {
                           children: [
                             'Peliculas',
                             'Series',
-                            'Actores Populares',
+                            'Actores populares',
                           ].map((category) => Padding(
                             padding: const EdgeInsets.symmetric(horizontal: 4.0),
                             child: ElevatedButton(
-                              onPressed: () {},
+                              onPressed: () {
+                                if (category == 'Peliculas') {
+                                  Navigator.pushNamed(context, '/grid');
+                                } else {
+                                  Navigator.pushNamed(context, '/series');
+                                  // Aquí puedes agregar otras acciones para 'Series' y 'Actores populares'
+                                  print('Botón $category presionado');
+                                }
+                              },
                               style: ElevatedButton.styleFrom(
                                 backgroundColor: Colors.grey[200],
                                 foregroundColor: Colors.black,
@@ -73,10 +89,8 @@ class MovieHomePage extends StatelessWidget {
                         ),
                       ),
                     ),
-                    // On trend section
-                    _buildSection('En tendencia'),
-                    // Latest trailers section
-                    _buildSection('Trailers mas recientes'),
+                    // Trending movies section
+                    MovieSection(title: 'En tendencia', movies: _trendingMovies),
                   ],
                 ),
               ),
@@ -91,37 +105,6 @@ class MovieHomePage extends StatelessWidget {
           BottomNavigationBarItem(icon: Icon(Icons.local_activity), label: 'Actividad'),
           BottomNavigationBarItem(icon: Icon(Icons.person), label: 'Mi lista'),
           BottomNavigationBarItem(icon: Icon(Icons.search), label: 'Buscar'),
-        ],
-      ),
-    );
-  }
-
-  Widget _buildSection(String title) {
-    return Padding(
-      padding: const EdgeInsets.all(16.0),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Text(title, style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
-              const Icon(Icons.arrow_forward, size: 20),
-            ],
-          ),
-          const SizedBox(height: 8),
-          GridView.count(
-            crossAxisCount: 3,
-            shrinkWrap: true,
-            physics: const NeverScrollableScrollPhysics(),
-            mainAxisSpacing: 8,
-            crossAxisSpacing: 8,
-            children: List.generate(3, (index) {
-              return Container(
-                color: Colors.grey[300],
-              );
-            }),
-          ),
         ],
       ),
     );

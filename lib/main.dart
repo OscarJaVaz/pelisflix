@@ -1,6 +1,8 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:pelisflix/screens/login.dart';
+import 'package:pelisflix/screens/series_grid_page.dart';
+import 'screens/movie_grid_page.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -18,8 +20,14 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.indigo,
       ),
+      initialRoute: '/',
+      routes: {
+        '/grid': (context) => const MovieGridPage(),
+        '/series': (context) => const SeriesGridPage(),
+      },
       home: const SplashScreen(),
     );
+
   }
 }
 
@@ -34,7 +42,6 @@ class _SplashScreenState extends State<SplashScreen> {
   @override
   void initState() {
     super.initState();
-    // Navegar a la pantalla de Login después de unos segundos
     Future.delayed(Duration(seconds: 9), () {
       Navigator.of(context).pushReplacement(
         MaterialPageRoute(builder: (context) => const LoginPageWithBackground()),
@@ -48,7 +55,7 @@ class _SplashScreenState extends State<SplashScreen> {
       backgroundColor: Colors.white,
       body: Center(
         child: Image.asset(
-          'assets/intro.gif', // Asegúrate de que el archivo GIF esté en la carpeta assets
+          'assets/intro.gif',
           width: 200,
           height: 200,
           fit: BoxFit.cover,
