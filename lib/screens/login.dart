@@ -21,79 +21,6 @@ class _LoginState extends State<Login> {
       _obscureText = !_obscureText;
     });
   }
-/*
-  Future<bool> _checkDirectivoStatus(String userId) async {
-    try {
-      // Accede al documento del usuario en Firestore
-      DocumentSnapshot userDoc = await FirebaseFirestore.instance.collection('usuarios').doc(userId).get();
-
-      // Verifica si el campo directivo está establecido en true
-      bool isDirectivo = userDoc['directivo'] ?? false;
-
-      return isDirectivo;
-    } catch (error) {
-      print('Error al verificar el estado de directivo: $error');
-      return false; // En caso de error, retorna false
-    }
-  }
-*/
-  /*
-  Future<void> fnLogin() async {
-    FirebaseAuth auth = FirebaseAuth.instance;
-    User? user;
-
-    try {
-      print('Validando usuario');
-      UserCredential userCredential = await auth.signInWithEmailAndPassword(
-        email: _emailController.text,
-        password: _passwordController.text,
-      );
-      user = userCredential.user;
-      print('Usuario encontrado');
-
-      // Obtener información del usuario desde Firestore
-      DocumentSnapshot userInfo = await FirebaseFirestore.instance.collection('usuarios').doc(user!.uid).get();
-      String? rol = userInfo['puesto'];
-      bool solicitudDirectivo = userInfo['solicitud_directivo'];
-      bool aprobadoDirectivo = userInfo['aprobado_directivo'];
-
-      if (solicitudDirectivo && !aprobadoDirectivo) {
-        // Si la solicitud está pendiente de aprobación, iniciar sesión como profesor
-        Navigator.pushAndRemoveUntil(
-          context,
-          MaterialPageRoute(builder: (context) => HomePageProfesor()),
-              (route) => false, // Eliminar todas las rutas del stack
-        );
-      } else {
-        // Si no hay solicitud pendiente o si ya fue aprobada
-        if (rol == 'Directivo') {
-          // Si el rol es directivo, iniciar sesión como directivo
-          Navigator.pushAndRemoveUntil(
-            context,
-            MaterialPageRoute(builder: (context) => HomePage()),
-                (route) => false,
-          );
-        } else if (rol == 'Profesor') {
-          // Si el rol es profesor, iniciar sesión como profesor
-          Navigator.pushAndRemoveUntil(
-            context,
-            MaterialPageRoute(builder: (context) => HomePageProfesor()),
-                (route) => false,
-          );
-        }
-      }
-    } on FirebaseAuthException catch (e) {
-      print('Error: ${e.code} ${e.message}');
-      if (e.code == 'user-not-found') {
-        print('No se encontró ningún usuario con ese correo electrónico');
-      } else if (e.code == 'wrong-password') {
-        print('Se proporcionó una contraseña incorrecta');
-        showIncorrectCredentialsAlert();
-      }
-    }
-  }
-  */
-
   void showIncorrectCredentialsAlert() {
     showDialog(
       context: context,
@@ -130,7 +57,7 @@ class _LoginState extends State<Login> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Image.network(
-                  'https://cdn-icons-png.flaticon.com/512/5509/5509636.png',
+                  'https://cdn.icon-icons.com/icons2/1508/PNG/512/systemusers_104569.png',
                   width: 150,
                   height: 150,
                   fit: BoxFit.cover,
@@ -217,6 +144,19 @@ class _LoginState extends State<Login> {
                   child: const Text('Iniciar sesión'),
                 ),
                 const SizedBox(height: 10),
+                Align(
+                  alignment: Alignment.centerRight,
+                  child: GestureDetector(
+                    onTap: () {
+                      // Redirigir a una nueva vista
+                      Navigator.pushNamed(context, '/forgotpassword');
+                    },
+                    child: Text(
+                      "Olvidó su contraseña?",
+                      style: TextStyle(color: Colors.redAccent),
+                    ),
+                  ),
+                ),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
@@ -271,7 +211,7 @@ class _LoginState extends State<Login> {
                           // Implement Facebook sign-in functionality
                         },
                         icon: const Icon(Icons.facebook),
-                        label: const Text('Registrarse con Facebook'),
+                        label: const Text('Iniciar sesión con Facebook'),
                         style: ElevatedButton.styleFrom(
                           primary: Colors.blueAccent,
                           onPrimary: Colors.white,

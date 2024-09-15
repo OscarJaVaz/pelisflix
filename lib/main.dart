@@ -1,8 +1,9 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:pelisflix/screens/forgot_password.dart';
 import 'package:pelisflix/screens/login.dart';
-import 'package:pelisflix/screens/series_grid_page.dart';
-import 'screens/movie_grid_page.dart';
+import 'package:pelisflix/series/series_grid_page.dart';
+import 'movies/movie_grid_page.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -24,6 +25,7 @@ class MyApp extends StatelessWidget {
       routes: {
         '/grid': (context) => const MovieGridPage(),
         '/series': (context) => const SeriesGridPage(),
+        '/forgotpassword': (context) => ForgotPasswordScreen(),
       },
       home: const SplashScreen(),
     );
@@ -42,7 +44,7 @@ class _SplashScreenState extends State<SplashScreen> {
   @override
   void initState() {
     super.initState();
-    Future.delayed(Duration(seconds: 9), () {
+    Future.delayed(Duration(seconds: 3), () {
       Navigator.of(context).pushReplacement(
         MaterialPageRoute(builder: (context) => const LoginPageWithBackground()),
       );
