@@ -3,12 +3,14 @@ class Movie {
   final String title;
   final String posterPath;
   final double voteAverage;
+  final String overview;
 
   Movie({
     required this.id,
     required this.title,
     required this.posterPath,
     required this.voteAverage,
+    required this.overview,
   });
 
   factory Movie.fromJson(Map<String, dynamic> json) {
@@ -17,6 +19,7 @@ class Movie {
       title: json['title'],
       posterPath: json['poster_path'] ?? '',
       voteAverage: (json['vote_average'] as num).toDouble(),
+      overview: json['overview'] ?? 'No description available.',
     );
   }
 }

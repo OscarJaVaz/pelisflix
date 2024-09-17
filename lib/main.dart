@@ -1,5 +1,6 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:pelisflix/actors/popular_actors_grid_page.dart';
 import 'package:pelisflix/main_screens/forgot_password.dart';
 import 'package:pelisflix/main_screens/login.dart';
 import 'package:pelisflix/main_screens/reset_password.dart';
@@ -29,6 +30,7 @@ class MyApp extends StatelessWidget {
         '/series': (context) => const SeriesGridPage(),
         '/forgotpassword': (context) => ForgotPasswordScreen(),
         '/resetpassword' : (context) => ResetPassword(),
+        '/actors': (context) => const PopularActorsGrid(),
       },
       home: const SplashScreen(),
     );
