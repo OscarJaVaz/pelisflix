@@ -136,6 +136,19 @@ class TMDbService {
     }
   }
 
+  //funcion para buscador de peliculas
+  Future<List<Movie>> searchMovies(String query) async {
+    final response = await http.get(Uri.parse('$baseUrl/search/movie?api_key=$apiKey&query=$query'));
+
+    if (response.statusCode == 200) {
+      final data = json.decode(response.body);
+      return (data['results'] as List)
+          .map((movie) => Movie.fromJson(movie))
+          .toList();
+    } else {
+      throw Exception('Failed to search movies');
+    }
+  }
 
 
   Future<List<Movie>> _getMovies(String url) async {

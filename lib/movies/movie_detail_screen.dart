@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
+import 'package:pelisflix/actors/actor_detail_screen.dart';
 import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 import '../models/movie.dart';
 import '../models/person.dart';
@@ -183,43 +184,56 @@ class _MovieDetailScreenState extends State<MovieDetailScreen> {
                             itemCount: cast.length,
                             itemBuilder: (context, index) {
                               final person = cast[index];
-                              return Padding(
-                                padding: const EdgeInsets.only(right: 8.0),
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    ClipRRect(
-                                      borderRadius: BorderRadius.circular(8.0),
-                                      child: CachedNetworkImage(
-                                        imageUrl: 'https://image.tmdb.org/t/p/w500${person.profilePath}',
+                              return GestureDetector(
+                                onTap: () {
+                                  // Navegamos a la pantalla de detalles del actor
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) => ActorDetailScreen(
+                                        actorId: person.id, // Pasamos el ID del actor seleccionado
+                                      ),
+                                    ),
+                                  );
+                                },
+                                child: Padding(
+                                  padding: const EdgeInsets.only(right: 8.0),
+                                  child: Column(
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: [
+                                      ClipRRect(
+                                        borderRadius: BorderRadius.circular(8.0),
+                                        child: CachedNetworkImage(
+                                          imageUrl: 'https://image.tmdb.org/t/p/w500${person.profilePath}',
+                                          width: 100,
+                                          height: 150,
+                                          fit: BoxFit.cover,
+                                          placeholder: (context, url) => Container(
+                                            width: 100,
+                                            height: 150,
+                                            color: Colors.grey[300],
+                                            child: const Center(child: CircularProgressIndicator()),
+                                          ),
+                                          errorWidget: (context, url, error) => Container(
+                                            width: 100,
+                                            height: 150,
+                                            color: Colors.grey[300],
+                                            child: const Icon(Icons.error),
+                                          ),
+                                        ),
+                                      ),
+                                      const SizedBox(height: 4),
+                                      SizedBox(
                                         width: 100,
-                                        height: 150,
-                                        fit: BoxFit.cover,
-                                        placeholder: (context, url) => Container(
-                                          width: 100,
-                                          height: 150,
-                                          color: Colors.grey[300],
-                                          child: const Center(child: CircularProgressIndicator()),
-                                        ),
-                                        errorWidget: (context, url, error) => Container(
-                                          width: 100,
-                                          height: 150,
-                                          color: Colors.grey[300],
-                                          child: const Icon(Icons.error),
+                                        child: Text(
+                                          person.name,
+                                          maxLines: 1,
+                                          overflow: TextOverflow.ellipsis,
+                                          style: const TextStyle(fontSize: 12),
                                         ),
                                       ),
-                                    ),
-                                    const SizedBox(height: 4),
-                                    SizedBox(
-                                      width: 100,
-                                      child: Text(
-                                        person.name,
-                                        maxLines: 1,
-                                        overflow: TextOverflow.ellipsis,
-                                        style: const TextStyle(fontSize: 12),
-                                      ),
-                                    ),
-                                  ],
+                                    ],
+                                  ),
                                 ),
                               );
                             },
@@ -230,6 +244,7 @@ class _MovieDetailScreenState extends State<MovieDetailScreen> {
                       }
                     },
                   ),
+
                   Padding(
                     padding: const EdgeInsets.all(16.0),
                     child: Center(

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:pelisflix/user/notifications_screen.dart';
 
 class UserDetailsScreen extends StatelessWidget {
   @override
@@ -12,10 +13,15 @@ class UserDetailsScreen extends StatelessWidget {
         actions: [
           IconButton(
             icon: Icon(Icons.notifications_none),
-            onPressed: () {/* acción de notificaciones */},
+            onPressed: () {Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => NotificationsScreen()),
+            );},
           ),
         ],
+        backgroundColor: Colors.red,
       ),
+      backgroundColor: Colors.white,
       body: SingleChildScrollView(
         child: Padding(
           padding: EdgeInsets.all(16.0),

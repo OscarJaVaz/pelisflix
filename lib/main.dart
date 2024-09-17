@@ -4,6 +4,7 @@ import 'package:pelisflix/actors/popular_actors_grid_page.dart';
 import 'package:pelisflix/main_screens/forgot_password.dart';
 import 'package:pelisflix/main_screens/login.dart';
 import 'package:pelisflix/main_screens/reset_password.dart';
+import 'package:pelisflix/main_screens/search_screen.dart';
 import 'package:pelisflix/movies/latest_trailers/latest_trailers_page.dart';
 import 'package:pelisflix/movies/trending/all_trending_movies.dart';
 import 'package:pelisflix/series/series_grid_page.dart';
@@ -35,6 +36,7 @@ class MyApp extends StatelessWidget {
         '/actors': (context) => const PopularActorsGrid(),
         '/trendingMovies': (context) => const AllTrendingMoviesPage(),
         '/latestTrailers': (context) => const LatestTrailersPage(),
+        '/search': (context) => SearchScreen(),
       },
       home: const SplashScreen(),
     );

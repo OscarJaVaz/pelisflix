@@ -82,7 +82,7 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.yellow,
+      backgroundColor: Colors.white,
       body: SafeArea(
         child: Column(
           children: [
@@ -171,14 +171,30 @@ class _HomeScreenState extends State<HomeScreen> {
         bottomNavigationBar: BottomNavigationBar(
           backgroundColor: Colors.red,
           type: BottomNavigationBarType.fixed,
-          selectedItemColor: Colors.white, // Color para el ítem seleccionado
-          unselectedItemColor: Colors.white.withOpacity(0.6), // Color para los ítems no seleccionados
+          selectedItemColor: Colors.white,
+          unselectedItemColor: Colors.white.withOpacity(0.6),
           items: const [
             BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Inicio'),
             BottomNavigationBarItem(icon: Icon(Icons.local_activity), label: 'Actividad'),
             BottomNavigationBarItem(icon: Icon(Icons.person), label: 'Mi lista'),
             BottomNavigationBarItem(icon: Icon(Icons.search), label: 'Buscar'),
           ],
+          onTap: (index) {
+            switch (index) {
+              case 0:
+                Navigator.pushNamed(context, '/home');
+                break;
+              case 1:
+                Navigator.pushNamed(context, '/activity');
+                break;
+              case 2:
+                Navigator.pushNamed(context, '/myList');
+                break;
+              case 3:
+                Navigator.pushNamed(context, '/search');
+                break;
+            }
+          },
         ),
     );
   }
