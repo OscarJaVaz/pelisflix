@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:pelisflix/screens/home_screen.dart';
-import 'package:pelisflix/screens/register.dart';
+import 'package:pelisflix/main_screens/home_screen.dart';
+import 'package:pelisflix/main_screens/register.dart';
+import 'package:pelisflix/main_screens/select_favorites.dart';
 
 class Login extends StatefulWidget {
   const Login({Key? key}) : super(key: key);
@@ -16,13 +15,14 @@ class _LoginState extends State<Login> {
   final TextEditingController _passwordController = TextEditingController();
   bool _obscureText = true;
 
-
-  //ocultar contraseña
+  // Ocultar contraseña
   void _togglePasswordVisibility() {
     setState(() {
       _obscureText = !_obscureText;
     });
   }
+
+  // Mostrar diálogo de credenciales incorrectas
   void showIncorrectCredentialsAlert() {
     showDialog(
       context: context,
@@ -43,20 +43,47 @@ class _LoginState extends State<Login> {
     );
   }
 
+  // Mostrar el loading circle
+  void showLoadingIndicator() {
+    showDialog(
+      context: context,
+      barrierDismissible: false, // Impedir cerrar el diálogo al tocar afuera
+      builder: (BuildContext context) {
+        return const Center(
+          child: CircularProgressIndicator(), // Loading circle
+        );
+      },
+    );
+  }
+
+  // Simular proceso de inicio de sesión con un delay de 2 segundos
+  Future<void> _login() async {
+    showLoadingIndicator();
+
+    // Simular un proceso de autenticación de 2 segundos
+    await Future.delayed(const Duration(seconds: 2));
+
+    // Cerrar el loading circle
+    Navigator.of(context).pop();
+
+    // Redirigir a HomeScreen después del delay
+    Navigator.pushReplacement(
+      context,
+      MaterialPageRoute(builder: (context) => const SelectFavoritesScreen()), // Navega a HomeScreen
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white10,
-      appBar: AppBar(
-        title: const Text('Pelisflix'),
-          backgroundColor: Colors.red
-      ),
       body: SingleChildScrollView(
         child: Center(
           child: Padding(
-            padding: const EdgeInsets.all(16.0),
+            padding: const EdgeInsets.all(46.0),
             child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.center, // Centra los elementos verticalmente
+              crossAxisAlignment: CrossAxisAlignment.center, // Centra los elementos horizontalmente
               children: [
                 Image.network(
                   'https://cdn.icon-icons.com/icons2/1508/PNG/512/systemusers_104569.png',
@@ -70,7 +97,7 @@ class _LoginState extends State<Login> {
                     'Bienvenido',
                     style: TextStyle(
                       fontSize: 20,
-                      color: Colors.black
+                      color: Colors.black,
                     ),
                   ),
                 ),
@@ -99,8 +126,6 @@ class _LoginState extends State<Login> {
                     color: Colors.red,
                   ),
                 ),
-
-
                 const SizedBox(height: 20),
                 TextField(
                   controller: _passwordController,
@@ -108,7 +133,8 @@ class _LoginState extends State<Login> {
                     labelText: 'Contraseña',
                     suffixIcon: IconButton(
                       icon: Icon(
-                        _obscureText ? Icons.visibility : Icons.visibility_off, color: Colors.red,
+                        _obscureText ? Icons.visibility : Icons.visibility_off,
+                        color: Colors.red,
                       ),
                       onPressed: _togglePasswordVisibility,
                     ),
@@ -126,19 +152,13 @@ class _LoginState extends State<Login> {
                         color: Colors.red,
                       ),
                     ),
-
                   ),
                   obscureText: _obscureText,
                   cursorColor: Colors.red,
                 ),
                 const SizedBox(height: 20),
                 ElevatedButton(
-                  onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => const HomeScreen()), // Navega a HomeScreen
-                    );
-                  },
+                  onPressed: _login, // Llama al método _login al hacer clic
                   style: ElevatedButton.styleFrom(
                     primary: Colors.black,
                     onPrimary: Colors.white,
@@ -162,65 +182,25 @@ class _LoginState extends State<Login> {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        const Text(
-                          "¿Usuario nuevo?",
-                          style: TextStyle(
-                            color: Colors.white,
-                          ),
-                        ),
-                        TextButton(
-                          onPressed: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(builder: (context) => const Register()),
-                            );
-                          },
-                          style: TextButton.styleFrom(
-                            primary: Colors.black,
-                          ),
-                          child: const Text("Regístrate aquí"),
-                        ),
-
-                      ],
+                    const Text(
+                      "¿Usuario nuevo?",
+                      style: TextStyle(
+                        color: Colors.white,
+                      ),
+                    ),
+                    TextButton(
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(builder: (context) => const Register()),
+                        );
+                      },
+                      style: TextButton.styleFrom(
+                        primary: Colors.black,
+                      ),
+                      child: const Text("Regístrate aquí"),
                     ),
                   ],
-                ),
-                Center(
-                  child: Column(
-                    children: [
-                      const Text(
-                        'o continúa con',
-                        style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: Colors.black),
-                      ),
-                      const SizedBox(height: 20),
-                      ElevatedButton.icon(
-                        onPressed: () {
-                          // Implement Google sign-in functionality
-                        },
-                        icon: const Icon(Icons.email),
-                        label: const Text('Iniciar sesión con Google'),
-                        style: ElevatedButton.styleFrom(
-                          primary: Colors.blue,
-                          onPrimary: Colors.white,
-                        ),
-                      ),
-                      const SizedBox(height: 10),
-                      ElevatedButton.icon(
-                        onPressed: () {
-                          // Implement Facebook sign-in functionality
-                        },
-                        icon: const Icon(Icons.facebook),
-                        label: const Text('Iniciar sesión con Facebook'),
-                        style: ElevatedButton.styleFrom(
-                          primary: Colors.blueAccent,
-                          onPrimary: Colors.white,
-                        ),
-                      ),
-                    ],
-                  ),
                 ),
               ],
             ),

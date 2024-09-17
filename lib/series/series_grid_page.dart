@@ -61,7 +61,7 @@ class _SeriesGridPageState extends State<SeriesGridPage> {
             child: SingleChildScrollView(
               scrollDirection: Axis.horizontal,
               child: Row(
-                children: ['Popular', 'Top Rated', 'On The Air', 'Airing Today']
+                children: ['Popular', 'Mejor valorados', 'En directo', 'Emitido hoy']
                     .map((category) => Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 4.0),
                   child: ElevatedButton(
@@ -124,7 +124,7 @@ class _SeriesGridPageState extends State<SeriesGridPage> {
                               maxLines: 1,
                               overflow: TextOverflow.ellipsis,
                             ),
-                            Text('Rating: ${series.voteAverage.toStringAsFixed(1)}'),
+                            Text('Puntuación: ${series.voteAverage.toStringAsFixed(1)}'),
                           ],
                         ),
                       ),

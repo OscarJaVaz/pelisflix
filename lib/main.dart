@@ -1,8 +1,8 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'package:pelisflix/screens/forgot_password.dart';
-import 'package:pelisflix/screens/login.dart';
-import 'package:pelisflix/screens/reset_password.dart';
+import 'package:pelisflix/main_screens/forgot_password.dart';
+import 'package:pelisflix/main_screens/login.dart';
+import 'package:pelisflix/main_screens/reset_password.dart';
 import 'package:pelisflix/series/series_grid_page.dart';
 import 'movies/movie_grid_page.dart';
 

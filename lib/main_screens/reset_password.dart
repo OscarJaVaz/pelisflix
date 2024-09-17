@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 
-
-
 class ResetPassword extends StatefulWidget {
   const ResetPassword({super.key});
 
@@ -17,7 +15,7 @@ class _ResetPasswordState extends State<ResetPassword> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.amberAccent[200], // Color de fondo similar
+      backgroundColor: Colors.amberAccent[200], // Color de fondo
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Column(
@@ -70,7 +68,7 @@ class _ResetPasswordState extends State<ResetPassword> {
             const SizedBox(height: 30),
             ElevatedButton(
               onPressed: () {
-                // agregar la lógica para verificar las contraseñas
+                // lógica para verificar las contraseñas
                 String newPassword = newPasswordController.text;
                 String confirmPassword = confirmPasswordController.text;
 
@@ -115,7 +113,7 @@ class _ResetPasswordState extends State<ResetPassword> {
                 }
               },
               style: ElevatedButton.styleFrom(
-                primary: Colors.red, // Color similar al botón
+                primary: Colors.red, // Color botón
                 padding: const EdgeInsets.symmetric(horizontal: 50, vertical: 15),
               ),
               child: const Text('Reestablecer'),
@@ -124,7 +122,7 @@ class _ResetPasswordState extends State<ResetPassword> {
             TextButton(
               onPressed: () {
                 // Acción de cancelar
-                Navigator.pushNamed(context, '/'); // Regresa a la pantalla anterior
+                Navigator.pushNamed(context, '/'); // Regresa a la pantalla de inicio
               },
               child: const Text(
                 'Cancelar',
