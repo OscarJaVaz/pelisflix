@@ -16,6 +16,8 @@ class _LoginState extends State<Login> {
   final TextEditingController _passwordController = TextEditingController();
   bool _obscureText = true;
 
+
+  //ocultar contraseña
   void _togglePasswordVisibility() {
     setState(() {
       _obscureText = !_obscureText;
@@ -151,7 +153,7 @@ class _LoginState extends State<Login> {
                       // Redirigir a una nueva vista
                       Navigator.pushNamed(context, '/forgotpassword');
                     },
-                    child: Text(
+                    child: const Text(
                       "Olvidó su contraseña?",
                       style: TextStyle(color: Colors.redAccent),
                     ),
