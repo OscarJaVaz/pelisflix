@@ -69,7 +69,7 @@ class _LoginState extends State<Login> {
     // Redirigir a HomeScreen después del delay
     Navigator.pushReplacement(
       context,
-      MaterialPageRoute(builder: (context) => const SelectFavoritesScreen()), // Navega a HomeScreen
+      MaterialPageRoute(builder: (context) => const SelectFavoritesScreen()),
     );
   }
 
@@ -160,8 +160,7 @@ class _LoginState extends State<Login> {
                 ElevatedButton(
                   onPressed: _login, // Llama al método _login al hacer clic
                   style: ElevatedButton.styleFrom(
-                    primary: Colors.black,
-                    onPrimary: Colors.white,
+                    foregroundColor: Colors.white, backgroundColor: Colors.black,
                   ),
                   child: const Text('Iniciar sesión'),
                 ),
@@ -196,7 +195,7 @@ class _LoginState extends State<Login> {
                         );
                       },
                       style: TextButton.styleFrom(
-                        primary: Colors.black,
+                        foregroundColor: Colors.black,
                       ),
                       child: const Text("Regístrate aquí"),
                     ),

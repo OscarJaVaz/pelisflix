@@ -90,6 +90,24 @@ class TMDbService {
   }
 
 
+  //funcion para traer los trailer de las peliculas
+
+  Future<String?> getMovieTrailer(int movieId) async {
+    final response = await http.get(Uri.parse('$baseUrl/movie/$movieId/videos?api_key=$apiKey&language=en-US'));
+    if (response.statusCode == 200) {
+      final data = json.decode(response.body);
+      final results = data['results'] as List;
+      if (results.isNotEmpty) {
+        // Devuelve la clave del primer video, que generalmente es el trailer
+        return results[0]['key'] as String;
+      }
+      return null; // No hay trailer disponible
+    } else {
+      throw Exception('Failed to load movie trailer');
+    }
+  }
+
+
   Future<List<Movie>> _getMovies(String url) async {
     final response = await http.get(Uri.parse(url));
 

@@ -11,7 +11,6 @@ class HomeScreen extends StatefulWidget {
 
   @override
   State<HomeScreen> createState() => _HomeScreenState();
-
 }
 
 class _HomeScreenState extends State<HomeScreen> {
@@ -36,7 +35,6 @@ class _HomeScreenState extends State<HomeScreen> {
       });
     } catch (e) {
       print('Error loading trending movies: $e');
-      // TODO: Implement proper error handling
     }
   }
 
@@ -71,6 +69,14 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
+  // Funciones para redirigir a las listas completas
+  void _onSeeAllTrendingMovies() {
+    Navigator.pushNamed(context, '/trendingMovies'); // Asegúrate de que la ruta esté definida
+  }
+
+  void _onSeeAllLatestTrailers() {
+    Navigator.pushNamed(context, '/latestTrailers'); // Asegúrate de que la ruta esté definida
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -78,7 +84,6 @@ class _HomeScreenState extends State<HomeScreen> {
       body: SafeArea(
         child: Column(
           children: [
-            // Header
             Padding(
               padding: const EdgeInsets.all(16.0),
               child: Row(
@@ -89,12 +94,10 @@ class _HomeScreenState extends State<HomeScreen> {
                 ],
               ),
             ),
-            // Main content
             Expanded(
               child: SingleChildScrollView(
                 child: Column(
                   children: [
-                    // Categories
                     Padding(
                       padding: const EdgeInsets.symmetric(vertical: 8.0),
                       child: SingleChildScrollView(
@@ -114,7 +117,6 @@ class _HomeScreenState extends State<HomeScreen> {
                                   Navigator.pushNamed(context, '/actors');
                                 } else {
                                   Navigator.pushNamed(context, '/series');
-                                  print('Botón $category presionado');
                                 }
                               },
                               style: ElevatedButton.styleFrom(
@@ -130,17 +132,19 @@ class _HomeScreenState extends State<HomeScreen> {
                         ),
                       ),
                     ),
-                    // Trending movies section
+                    // Sección de películas en tendencia
                     MovieSection(
                       title: 'En tendencia',
                       movies: _trendingMovies,
-                      onMovieTap: _onMovieTap, // Pasa la función
+                      onMovieTap: _onMovieTap,
+                      onSeeAllTap: _onSeeAllTrendingMovies, // Callback para la flechita
                     ),
-                    // Latest trailers section
+                    // Sección de últimos trailers
                     MovieSection(
                       title: 'Últimos trailers',
                       movies: _latestTrailers,
-                      onMovieTap: _onMovieTap, // Pasa la función
+                      onMovieTap: _onMovieTap,
+                      onSeeAllTap: _onSeeAllLatestTrailers, // Callback para la flechita
                     ),
                   ],
                 ),

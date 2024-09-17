@@ -77,7 +77,7 @@ class ForgotPasswordScreen extends StatelessWidget {
                                 Navigator.pushNamed(context, '/resetpassword'); // Redirige a /resetpassword
                               },
                               style: TextButton.styleFrom(
-                                primary: Colors.red,
+                                foregroundColor: Colors.red,
                               ),
                               child: const Text('Aceptar'),
                             ),
@@ -88,8 +88,7 @@ class ForgotPasswordScreen extends StatelessWidget {
                   }
                 },
                 style: ElevatedButton.styleFrom(
-                  primary: Colors.red,
-                  onPrimary: Colors.white,
+                  foregroundColor: Colors.white, backgroundColor: Colors.red,
                 ),
                 child: const Text('Enviar código'),
               ),

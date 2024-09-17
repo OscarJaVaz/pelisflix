@@ -1,6 +1,7 @@
-// screens/movie_detail_screen.dart
 import 'package:flutter/material.dart';
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:flutter_rating_bar/flutter_rating_bar.dart';
+import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 import '../models/movie.dart';
 import '../models/person.dart';
 import '../services/tmdb_service.dart';
@@ -17,6 +18,7 @@ class MovieDetailScreen extends StatefulWidget {
 class _MovieDetailScreenState extends State<MovieDetailScreen> {
   late Future<Movie> _movieDetails;
   late Future<List<Person>> _movieCast;
+  late Future<String?> _movieTrailerKey;
   final TMDbService _tmdbService = TMDbService();
 
   @override
@@ -24,7 +26,81 @@ class _MovieDetailScreenState extends State<MovieDetailScreen> {
     super.initState();
     _movieDetails = _tmdbService.getMovieDetails(widget.movie.id);
     _movieCast = _tmdbService.getMovieCast(widget.movie.id);
+    _movieTrailerKey = _tmdbService.getMovieTrailer(widget.movie.id);
   }
+
+  void _showFeedbackDialog() {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text('Give your Review'),
+          content: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              const Text('Rate this movie:'),
+              const SizedBox(height: 10),
+              // Rating Stars
+              RatingBar.builder(
+                initialRating: 0,
+                minRating: 1,
+                itemCount: 5,
+                itemSize: 30,
+                itemBuilder: (context, index) => const Icon(
+                  Icons.star,
+                  color: Colors.amber,
+                ),
+                onRatingUpdate: (rating) {
+                  // Handle rating update
+                },
+              ),
+              const SizedBox(height: 10),
+              // Comments Field
+              TextField(
+                decoration: const InputDecoration(
+                  border: OutlineInputBorder(),
+                  labelText: 'Write your comments',
+                ),
+                maxLines: 3,
+                onChanged: (value) {
+                },
+              ),
+            ],
+          ),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop(); // Cierra el primer diálogo
+                _showThanksDialog(); // Muestra el segundo diálogo
+              },
+              child: const Text('Done'),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  void _showThanksDialog() {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text('Perfect!'),
+          content: const Text('Thanks for your review.'),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop(); // Cierra el segundo diálogo
+              },
+              child: const Text('OK'),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
 
   @override
   Widget build(BuildContext context) {
@@ -46,19 +122,29 @@ class _MovieDetailScreenState extends State<MovieDetailScreen> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  CachedNetworkImage(
-                    imageUrl: 'https://image.tmdb.org/t/p/w500${movie.posterPath}',
-                    width: double.infinity,
-                    height: 300,
-                    fit: BoxFit.cover,
-                    placeholder: (context, url) => Container(
-                      color: Colors.grey[300],
-                      child: const Center(child: CircularProgressIndicator()),
-                    ),
-                    errorWidget: (context, url, error) => Container(
-                      color: Colors.grey[300],
-                      child: const Icon(Icons.error),
-                    ),
+                  FutureBuilder<String?>(
+                    future: _movieTrailerKey,
+                    builder: (context, snapshot) {
+                      if (snapshot.connectionState == ConnectionState.waiting) {
+                        return const Center(child: CircularProgressIndicator());
+                      } else if (snapshot.hasError) {
+                        return Center(child: Text('Error loading trailer: ${snapshot.error}'));
+                      } else if (snapshot.hasData && snapshot.data != null) {
+                        final trailerKey = snapshot.data!;
+                        return YoutubePlayer(
+                          controller: YoutubePlayerController(
+                            initialVideoId: trailerKey,
+                            flags: const YoutubePlayerFlags(
+                              autoPlay: false,
+                              mute: false,
+                            ),
+                          ),
+                          showVideoProgressIndicator: true,
+                        );
+                      } else {
+                        return const Center(child: Text('No trailer available.'));
+                      }
+                    },
                   ),
                   Padding(
                     padding: const EdgeInsets.all(16.0),
@@ -148,27 +234,18 @@ class _MovieDetailScreenState extends State<MovieDetailScreen> {
                     padding: const EdgeInsets.all(16.0),
                     child: Center(
                       child: ElevatedButton(
-                        onPressed: () {
-                          showDialog(
-                            context: context,
-                            builder: (context) => AlertDialog(
-                              title: const Text('Feedback'),
-                              content: const Text('Here you can provide feedback about the movie.'),
-                              actions: [
-                                TextButton(
-                                  onPressed: () {
-                                    Navigator.of(context).pop();
-                                  },
-                                  child: const Text('Close'),
-                                ),
-                              ],
-                            ),
-                          );
-                        },
-                        child: const Text('Give Your Feedback'),
+                        onPressed: _showFeedbackDialog,
+                        style: ElevatedButton.styleFrom(
+                          minimumSize: Size(double.infinity, 50), backgroundColor: Colors.red,
+                        ),
+                        child: Text(
+                          'Give Your Feedback',
+                          style: TextStyle(color: Colors.white),
+                        ),
                       ),
                     ),
                   ),
+
                 ],
               ),
             );

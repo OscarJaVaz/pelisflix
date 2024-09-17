@@ -148,8 +148,7 @@ class _RegisterState extends State<Register> {
                     );
                   },
                   style: ElevatedButton.styleFrom(
-                    primary: Colors.black,
-                    onPrimary: Colors.white,
+                    foregroundColor: Colors.white, backgroundColor: Colors.black,
                   ),
                   child: const Text('Crear cuenta'),
                 ),
@@ -172,8 +171,7 @@ class _RegisterState extends State<Register> {
                 icon: const Icon(Icons.email),
                 label: const Text('Registrarse con Google'),
                 style: ElevatedButton.styleFrom(
-                  primary: Colors.blue, // Google color
-                  onPrimary: Colors.white,
+                  foregroundColor: Colors.white, backgroundColor: Colors.blue,
                 ),
               ),
           const SizedBox(height: 10),
@@ -184,8 +182,7 @@ class _RegisterState extends State<Register> {
             icon: const Icon(Icons.facebook), // Use Facebook logo icon if available
             label: const Text('Registrarse con Facebook'),
             style: ElevatedButton.styleFrom(
-              primary: Colors.blueAccent, // Facebook color
-              onPrimary: Colors.white,
+              foregroundColor: Colors.white, backgroundColor: Colors.blueAccent,
             ),
           ),
                   ],

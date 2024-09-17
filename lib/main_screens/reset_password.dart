@@ -113,7 +113,7 @@ class _ResetPasswordState extends State<ResetPassword> {
                 }
               },
               style: ElevatedButton.styleFrom(
-                primary: Colors.red, // Color botón
+                backgroundColor: Colors.red, // Color botón
                 padding: const EdgeInsets.symmetric(horizontal: 50, vertical: 15),
               ),
               child: const Text('Reestablecer'),
