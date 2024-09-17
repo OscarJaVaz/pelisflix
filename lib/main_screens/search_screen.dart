@@ -87,7 +87,7 @@ class _SearchScreenState extends State<SearchScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Buscar Películas'),
+        title: const Text('Buscar películas o series'),
         backgroundColor: Colors.red,
       ),
       body: Column(

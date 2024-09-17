@@ -1,7 +1,9 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:pelisflix/actors/popular_actors_grid_page.dart';
+import 'package:pelisflix/main_screens/activity_screen.dart';
 import 'package:pelisflix/main_screens/forgot_password.dart';
+import 'package:pelisflix/main_screens/home_screen.dart';
 import 'package:pelisflix/main_screens/login.dart';
 import 'package:pelisflix/main_screens/reset_password.dart';
 import 'package:pelisflix/main_screens/search_screen.dart';
@@ -22,6 +24,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
       title: 'Pelisflix',
       theme: ThemeData(
         primarySwatch: Colors.indigo,
@@ -37,6 +40,8 @@ class MyApp extends StatelessWidget {
         '/trendingMovies': (context) => const AllTrendingMoviesPage(),
         '/latestTrailers': (context) => const LatestTrailersPage(),
         '/search': (context) => SearchScreen(),
+        '/activity': (context) => ActivityScreen(),
+        '/home': (context) => HomeScreen(),
       },
       home: const SplashScreen(),
     );
