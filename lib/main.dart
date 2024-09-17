@@ -5,6 +5,7 @@ import 'package:pelisflix/main_screens/activity_screen.dart';
 import 'package:pelisflix/main_screens/forgot_password.dart';
 import 'package:pelisflix/main_screens/home_screen.dart';
 import 'package:pelisflix/main_screens/login.dart';
+import 'package:pelisflix/main_screens/my_lists.dart';
 import 'package:pelisflix/main_screens/reset_password.dart';
 import 'package:pelisflix/main_screens/search_screen.dart';
 import 'package:pelisflix/movies/latest_trailers/latest_trailers_page.dart';
@@ -42,6 +43,7 @@ class MyApp extends StatelessWidget {
         '/search': (context) => SearchScreen(),
         '/activity': (context) => ActivityScreen(),
         '/home': (context) => HomeScreen(),
+        '/myList': (context) => MyListsScreen(),
       },
       home: const SplashScreen(),
     );
