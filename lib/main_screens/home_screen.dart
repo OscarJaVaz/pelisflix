@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:pelisflix/actors/popular_actors_grid_page.dart';
 import 'package:pelisflix/models/person.dart';
 import 'package:pelisflix/movies/movie_detail_screen.dart';
+import 'package:pelisflix/user/user_details.dart';
 import '../models/movie.dart';
 import '../services/tmdb_service.dart';
 import '../widgets/movie_section.dart';
@@ -81,6 +82,7 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.yellow,
       body: SafeArea(
         child: Column(
           children: [
@@ -90,7 +92,20 @@ class _HomeScreenState extends State<HomeScreen> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   const Text('Hola, Oscar!', style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
-                  CircleAvatar(backgroundColor: Colors.grey[300], radius: 20),
+                  GestureDetector(
+                    onTap: () {
+                      // Redirige a la pantalla de detalles del usuario
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => UserDetailsScreen()),
+                      );
+                    },
+                    child: CircleAvatar(
+                      backgroundColor: Colors.grey[300],
+                      radius: 20,
+                      child: Icon(Icons.person, color: Colors.white),
+                    ),
+                  ),
                 ],
               ),
             ),
@@ -153,15 +168,18 @@ class _HomeScreenState extends State<HomeScreen> {
           ],
         ),
       ),
-      bottomNavigationBar: BottomNavigationBar(
-        type: BottomNavigationBarType.fixed,
-        items: const [
-          BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Inicio'),
-          BottomNavigationBarItem(icon: Icon(Icons.local_activity), label: 'Actividad'),
-          BottomNavigationBarItem(icon: Icon(Icons.person), label: 'Mi lista'),
-          BottomNavigationBarItem(icon: Icon(Icons.search), label: 'Buscar'),
-        ],
-      ),
+        bottomNavigationBar: BottomNavigationBar(
+          backgroundColor: Colors.red,
+          type: BottomNavigationBarType.fixed,
+          selectedItemColor: Colors.white, // Color para el ítem seleccionado
+          unselectedItemColor: Colors.white.withOpacity(0.6), // Color para los ítems no seleccionados
+          items: const [
+            BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Inicio'),
+            BottomNavigationBarItem(icon: Icon(Icons.local_activity), label: 'Actividad'),
+            BottomNavigationBarItem(icon: Icon(Icons.person), label: 'Mi lista'),
+            BottomNavigationBarItem(icon: Icon(Icons.search), label: 'Buscar'),
+          ],
+        ),
     );
   }
 }

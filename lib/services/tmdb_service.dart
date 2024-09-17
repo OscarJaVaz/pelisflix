@@ -107,6 +107,36 @@ class TMDbService {
     }
   }
 
+  //funcion para traer los detalles de los actores
+  Future<Person> getPersonDetails(int personId) async {
+    final response = await http.get(Uri.parse('$baseUrl/person/$personId?api_key=$apiKey&language=en-US'));
+
+    if (response.statusCode == 200) {
+      final data = json.decode(response.body);
+      return Person.fromJson(data);
+    } else {
+      throw Exception('Failed to load person details');
+    }
+  }
+//Función para obtener las películas/series por las que el actor es reconocido (getPersonKnownFor):
+  Future<List<String>> getPersonKnownFor(int personId) async {
+    final response = await http.get(Uri.parse('$baseUrl/person/$personId/movie_credits?api_key=$apiKey&language=en-US'));
+
+    if (response.statusCode == 200) {
+      final data = json.decode(response.body);
+      List<String> knownForPosters = [];
+      for (var item in data['cast']) {
+        if (item['poster_path'] != null) {
+          knownForPosters.add(item['poster_path']);
+        }
+      }
+      return knownForPosters;
+    } else {
+      throw Exception('Failed to load person known for');
+    }
+  }
+
+
 
   Future<List<Movie>> _getMovies(String url) async {
     final response = await http.get(Uri.parse(url));

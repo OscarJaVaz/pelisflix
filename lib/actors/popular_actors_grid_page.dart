@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import '../models/person.dart';
 import '../services/tmdb_service.dart';
+import 'actor_detail_screen.dart'; // Importamos la nueva pantalla de detalles del actor
 
 class PopularActorsGrid extends StatefulWidget {
   const PopularActorsGrid({Key? key}) : super(key: key);
@@ -52,7 +53,12 @@ class _PopularActorsGridState extends State<PopularActorsGrid> {
             final actor = _popularActors[index];
             return GestureDetector(
               onTap: () {
-                // Acción al presionar el actor, si es necesario
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => ActorDetailScreen(actorId: actor.id),
+                  ),
+                );
               },
               child: GridTile(
                 child: Column(

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:pelisflix/models/movie.dart';
+import 'package:pelisflix/movies/movie_detail_screen.dart';
 import 'package:pelisflix/services/tmdb_service.dart';
 import 'package:pelisflix/widgets/movie_item.dart';
 
@@ -46,9 +47,17 @@ class _AllTrendingMoviesPageState extends State<AllTrendingMoviesPage> {
         itemCount: _trendingMovies.length,
         itemBuilder: (context, index) {
           final movie = _trendingMovies[index];
-          return MovieItem(movie: movie, onTap: () {
-            Navigator.pushNamed(context, '/movieDetail', arguments: movie);
-          });
+          return MovieItem(
+            movie: movie,
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => MovieDetailScreen(movie: movie),
+                ),
+              );
+            },
+          );
         },
       ),
     );
