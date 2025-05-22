@@ -1,5 +1,6 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart'; // Added Riverpod import
 import 'package:pelisflix/actors/popular_actors_grid_page.dart';
 import 'package:pelisflix/main_screens/activity_screen.dart';
 import 'package:pelisflix/main_screens/forgot_password.dart';
@@ -16,7 +17,7 @@ import 'movies/movie_grid_page.dart';
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   // await Firebase.initializeApp(); //  inicializar Firebase
-  runApp(const MyApp());
+  runApp(const ProviderScope(child: MyApp())); // Wrapped MyApp with ProviderScope
 }
 
 class MyApp extends StatelessWidget {
